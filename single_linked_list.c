@@ -11,7 +11,6 @@ void insertnode(int data,int position)
     linkedlistnode * t=head;
     linkedlistnode * newnode=(linkedlistnode*)malloc(sizeof(linkedlistnode));
     newnode->data=data;
-    newnode->next=NULL;
     if(position==1)
     {  newnode->next=head;
         head=newnode;
