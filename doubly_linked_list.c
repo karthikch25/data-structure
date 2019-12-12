@@ -1,40 +1,53 @@
 #include<stdio.h>
 #include<stdlib.h>
-
 typedef struct node{
     int data;
-    struct node *prev;
-    struct node *next;
-}linkedlistnode;
-linkedlistnode *head=NULL;
-void insertnode(int data,int position)
-{
-    linkedlistnode * t=head;
-    t->prev=NULL;
-    linkedlistnode * newnode=(linkedlistnode*)malloc(sizeof(linkedlistnode));
+    struct node* next;
+    struct node* prev;
+}dll;
+dll* head=NULL;
+dll * insertnode(dll* head,int data,int position){
+    dll *t=head;
+    dll* newnode=(dll*)malloc(sizeof(dll));
     newnode->data=data;
-    if(position==1)
-    {  newnode->next=head;
-        head=newnode->prev;
-        return;
-    }
-        for(int i=1;i<=position-1;i++)
+    newnode->prev=NULL;
+    if(position==1||head==NULL)
+    {   
+        if(position==1&&head==NULL)
         {
-            t=t->next;
-            
+            newnode->next=NULL;
+            newnode->prev=NULL;
+            head=newnode;
+            return head;
         }
-         newnode->next=t->next;
-         newnode->prev=t;
-         t->next=newnode;
-         t->next->prev=newnode;
-                
+        head->prev=newnode;
+        newnode->prev=NULL;
+        newnode->next=head;
+        head=newnode;
+        return head;
+    }
+    for(int i=1;i<position-1;i++)
+    {
+        t=t->next;
+    }
+     if(t->next==NULL)
+        {
+            newnode->next=NULL;
+            newnode->prev=t;
+            t->next=newnode;
+            return head;
+        }
+    newnode->next=t->next;
+    newnode->prev=t;
+    t->next->prev=newnode;
+    t->next=newnode;
+    return head;
 }
-/*void delete(int position)
-{linkedlistnode* t=head;
+void delete(dll* head ,int position)
+{dll* t=head;
     if(position==1)
     {
-        t->next->prev=head;
-        
+        head=head->next;
         return;
     }
    for(int i=1;i<position-1;i++)
@@ -42,9 +55,10 @@ void insertnode(int data,int position)
             t=t->next;
         }
     t->next=t->next->next;
-}*/
-void print()
-{linkedlistnode *t=head;
+    t->next->prev=t;
+}
+void print(dll* head)
+{dll *t=head;
     while(t!=NULL)
     {
         printf("%d->",t->data);
@@ -53,8 +67,8 @@ void print()
 }
 int main()
 {   int val,pos,n;
-    linkedlistnode* head=NULL;
-    linkedlistnode* temp;
+    dll* head=NULL;
+    dll* temp;
     while(1)
     {
         printf("1.insert at nth position\n");
@@ -67,15 +81,15 @@ int main()
             scanf("%d",&val);
             printf("enter position:");
             scanf("%d",&pos);
-            insertnode(val,pos);
-            print();
+            head = insertnode(head,val,pos);
+            print(head);
             break;
-    /*case 2: printf("enter the position of the deleting node:");
+    case 2: printf("enter the position of the deleting node:");
             scanf("%d",&pos);
-            delete(pos);
-            print();
-            break;*/
-    default: printf("enter valid number");
+            delete(head,pos);
+            print(head);
+            break;
+    default: printf("enter valid number\n");
             break;
     }
     }
