@@ -5,8 +5,8 @@ typedef struct node{
     int data;
     struct node *next;
 }linkedlistnode;
-linkedlistnode *head=NULL;
-void insertnode(int data,int position)
+
+linkedlistnode* insertnode(linkedlistnode* head,int data,int position)
 {
     linkedlistnode * t=head;
     linkedlistnode * newnode=(linkedlistnode*)malloc(sizeof(linkedlistnode));
@@ -23,8 +23,10 @@ void insertnode(int data,int position)
         }
          newnode->next=t->next;
                 t->next=newnode;
+                
+    return head;
 }
-void delete(int position)
+void delete(linkedlistnode* head ,int position)
 {linkedlistnode* t=head;
     if(position==1)
     {
@@ -37,7 +39,7 @@ void delete(int position)
         }
     t->next=t->next->next;
 }
-void print()
+void print(linkedlistnode* head)
 {linkedlistnode *t=head;
     while(t!=NULL)
     {
@@ -61,13 +63,13 @@ int main()
             scanf("%d",&val);
             printf("enter position:");
             scanf("%d",&pos);
-            insertnode(val,pos);
-            print();
+            head = insertnode(head,val,pos);
+            print(head);
             break;
     case 2: printf("enter the position of the deleting node:");
             scanf("%d",&pos);
-            delete(pos);
-            print();
+            delete(head,pos);
+            print(head);
             break;
     default: printf("enter valid number");
             break;
