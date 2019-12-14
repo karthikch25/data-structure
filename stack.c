@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+//Stack
 typedef struct stack{
     int data;
     struct stck *next;
@@ -13,8 +14,8 @@ stk * push(stk *head,int data)
     newnode->next=NULL;
         if(head==NULL)
         {
-            t=newnode;
-            return t;
+            head=newnode;
+            return head;
         }
         else
         {
@@ -23,22 +24,26 @@ stk * push(stk *head,int data)
                 t=t->next;
             }
             t->next=newnode;
-            return newnode;
+            return head;
         }
 }
-stk * pop(stk * head)
-{stk *t=head;
-stk *p;
+void pop(stk * head)
+{int x;
+  stk *t=head;
+stk *p=t;
 if(head==NULL)
 {
-    return NULL;
+    return;
 }
 while(t->next!=NULL)
 {
+  p = t;
     t=t->next;
 }
-p=t;
-return p;
+x=t->data;
+p->next = NULL;
+printf("%d",x);
+free(t);
 }
 int main()
 {   int ch,val;
@@ -57,8 +62,7 @@ int main()
             head = push(head,val);
             printf("%d\n",head->data);
             break;
-    case 2: head=pop(head);
-            printf("%d\n",head->data);
+    case 2: pop(head);
             break;
     default:printf("enter valid number");
             break;
